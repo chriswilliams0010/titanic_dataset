@@ -20,9 +20,3 @@ data['Title'] = [i[1].split()[0] for i in (j.split(',') for j in (x for x in dat
 # split the first letter off the 'Cabin'
 
 # fill the two missing values in 'Embarked'
-.idea/inspectionProfiles/
-	.idea/misc.xml
-	.idea/modules.xml
-	.idea/titanic_dataset.iml
-	.idea/vcs.xml
-	titanic_env/
