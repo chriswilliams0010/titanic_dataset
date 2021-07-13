@@ -1,5 +1,6 @@
 import pandas as pd
 from sklearn.preprocessing import LabelEncoder
+import re
 
 path = r'train.csv'
 
@@ -17,12 +18,7 @@ le2 = LabelEncoder()
 data['Sex'] = le2.fit_transform(data['Sex'])
 
 # fill the missing values in 'Age'
-cr = data.corr()
-missing_age = data[data['Age'].isnull()]
-for i in range(data['Title'].max()):
-	x = round(data['Age'][data['Title'] == i].mean(), 2)
-	print(i, ":", x)
-
+data['Age'] = data['Age'].fillna(data.groupby('Title')['Age'].transform('mean'))
 
 # bin the ages
 
@@ -31,5 +27,6 @@ for i in range(data['Title'].max()):
 # bin the fare values
 
 # split the first letter off the 'Cabin'
+# data['cabin_letter'] = [re.split('[0-9]+', i, flags=re.IGNORECASE)[0] for i in data['Cabin']]
 
 # fill the two missing values in 'Embarked'
