@@ -29,6 +29,8 @@ labels = [0, 1, 2, 3]
 data['Age'] = pd.cut(data['Age'], bins=bins, labels=labels)
 
 # get the family count and place it in a new column
+data['Family'] = data['SibSp'] + data['Parch'] + 1
+data = data.drop(['SibSp', 'Parch'], axis=1)
 
 # bin the fare values
 
