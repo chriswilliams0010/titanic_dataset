@@ -12,6 +12,7 @@ tot_rec = len(data)
 data['Title'] = [i[1].split()[0] for i in (j.split(',') for j in (x for x in data['Name']))]
 le = LabelEncoder()
 data['Title'] = le.fit_transform(data['Title'])
+data = data.drop(['Name'], axis=1)
 
 # convert 'Sex' to labels
 le2 = LabelEncoder()
@@ -21,6 +22,11 @@ data['Sex'] = le2.fit_transform(data['Sex'])
 data['Age'] = data['Age'].fillna(data.groupby('Title')['Age'].transform('mean'))
 
 # bin the ages
+min_age = data['Age'].min()
+max_age = data['Age'].max()
+bins = [0., 18., 35., 60., 80.]
+labels = [0, 1, 2, 3]
+data['Age'] = pd.cut(data['Age'], bins=bins, labels=labels)
 
 # get the family count and place it in a new column
 
