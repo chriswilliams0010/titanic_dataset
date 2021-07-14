@@ -1,5 +1,6 @@
 import pandas as pd
 from sklearn.preprocessing import LabelEncoder
+import seaborn as sns
 
 path = r'train.csv'
 
@@ -48,3 +49,6 @@ data = data.drop(['Cabin'], axis=1)
 data['Embarked'] = data['Embarked'].fillna(data['Embarked'].mode()[0])
 le3 = LabelEncoder()
 data['Embarked'] = le.fit_transform(data['Embarked'])
+
+sp_corr = data.corr(method='spearman')
+sns.heatmap(sp_corr)
