@@ -41,6 +41,10 @@ bins_fare = [0., 50., 200., 600.]
 labels_fare = [0, 1, 2]
 data['Fare'] = pd.cut(data['Fare'], bins=bins_fare, labels=labels_fare)
 
-# drop'Cabin'
+# drop 'Cabin'
+data = data.drop(['Cabin'], axis=1)
 
 # fill the two missing values in 'Embarked'
+data['Embarked'] = data['Embarked'].fillna(data['Embarked'].mode()[0])
+le3 = LabelEncoder()
+data['Embarked'] = le.fit_transform(data['Embarked'])
