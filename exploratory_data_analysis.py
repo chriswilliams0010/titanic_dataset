@@ -24,7 +24,7 @@ data['Age'] = data['Age'].fillna(data.groupby('Title')['Age'].transform('mean'))
 # bin the ages
 min_age = data['Age'].min()
 max_age = data['Age'].max()
-bins_age= [0., 18., 35., 60., 80.]
+bins_age = [0., 18., 35., 60., 80.]
 labels_age = [0, 1, 2, 3]
 data['Age'] = pd.cut(data['Age'], bins=bins_age, labels=labels_age)
 
@@ -52,3 +52,5 @@ data['Embarked'] = le.fit_transform(data['Embarked'])
 
 sp_corr = data.corr(method='spearman')
 sns.heatmap(sp_corr)
+
+sns.boxplot(data=data.iloc[:, 1:])
