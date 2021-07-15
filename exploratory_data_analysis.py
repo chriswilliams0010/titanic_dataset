@@ -1,6 +1,6 @@
 import pandas as pd
 from sklearn.preprocessing import LabelEncoder
-import seaborn as sns
+# import seaborn as sns
 
 path = r'train.csv'
 
@@ -51,6 +51,6 @@ le3 = LabelEncoder()
 data['Embarked'] = le.fit_transform(data['Embarked'])
 
 sp_corr = data.corr(method='spearman')
-sns.heatmap(sp_corr)
+# sns.heatmap(sp_corr)
 
-sns.boxplot(data=data.iloc[:, 1:])
+# sns.boxplot(data=data.iloc[:, 1:])

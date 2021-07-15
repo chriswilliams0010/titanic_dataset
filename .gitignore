@@ -4,4 +4,4 @@
 .idea/titanic_dataset.iml
 .idea/vcs.xml
 titanic_env/
-
+__pycache__
