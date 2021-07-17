@@ -1,19 +1,31 @@
-from exploratory_data_analysis import data, y, test_set
 import numpy as np
-import pandas as pd
-from sklearn.metrics import accuracy_score
-from sklearn.metrics import classification_report
-from sklearn.metrics import confusion_matrix
-from xgboost import XGBClassifier
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.linear_model import LogisticRegression
+from sklearn.model_selection import StratifiedKFold
+from sklearn.model_selection import cross_val_score
+from sklearn.naive_bayes import GaussianNB
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.svm import SVC
+from sklearn.tree import DecisionTreeClassifier
 
-test_set = pd.read_csv(r'test.csv')
-test_set['Title'] = [i[1].split()[0] for i in (j.split(',') for j in (x for x in test_set['Name']))]
-test_set['Title'] = le.transform(test_set['Title'])
+from exploratory_data_analysis import data, y, test_set
 
-y = np.array(data['Survived'])
-X = np.array(data.iloc[:, 2:])
-clf = XGBClassifier()
+X = np.array(data)
+X_test = np.array(test_set)
 
-clf.fit(X, y)
+# create dict of algorithms
+models = {
+    'Logistic Regression': LogisticRegression(),
+    'K-Nearest Neighbors': KNeighborsClassifier(),
+    'Decision Tree': DecisionTreeClassifier(),
+    'Random Forest': RandomForestClassifier(),
+    'Support Vector Machine': SVC(),
+    'GaussianNB': GaussianNB()
+}
 
-y_pred = clf.predict(X)
+# use k-fold cv to determine best estimator
+# make a loop for testing and printing out results of each model
+for name, model in models.items():
+    kf = StratifiedKFold(n_splits=5, random_state=42, shuffle=True)
+    cv = cross_val_score(estimator=model, X=X, y=y, cv=kf, scoring='accuracy')
+    print(f" {name}: \nf1: {cv.mean()}\nstd: {cv.std()}")
