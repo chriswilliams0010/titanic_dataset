@@ -1,40 +1,40 @@
 import pandas as pd
-from sklearn.preprocessing import LabelEncoder
 import numpy as np
+from sklearn.preprocessing import OneHotEncoder
 # import seaborn as sns
 
 path = r'train.csv'
 test_path = r'test.csv'
 
 data = pd.read_csv(path)
-y = data['Survived']
-data = data.drop(['Survived'], axis=1)
-# data['set'] = 'train'
+reserve_data = data.copy()
+y = data.pop('Survived')
 
 test_data = pd.read_csv(test_path)
-# test_data['set'] = 'test'
 pass_id = test_data['PassengerId']
 data = pd.concat([data, test_data])
-reserve_data = data.copy()
-tot_rec = len(data)
+reserve_dataset = data.copy()
 
 data = data.drop(['PassengerId'], axis=1)
 
 # extract title from name and place it in a new column
 data['Title'] = [i[1].split()[0] for i in (j.split(',') for j in (x for x in data['Name']))]
-# le = LabelEncoder()
-# data['Title'] = le.fit_transform(data['Title'])
-data = data.drop(['Name'], axis=1)
-
-# convert 'Sex' to labels
-# data['Sex'] = le2.fit_transform(data['Sex'])
+title_dict = {'Mr.': 'Mr.', 'Mrs.': 'Miss.', 'Miss.': 'Miss.', 'Master.': 'Child.',
+              'Don.': 'Mr.', 'Rev.': 'Mr.', 'Dr.': 'Mr.', 'Mme.': 'Miss.',
+              'Ms.': 'Miss.', 'Major.': 'Mr.', 'Lady.': 'Miss.', 'Sir.': 'Mr.',
+              'Mlle.': 'Miss.', 'Col.': 'Mr.', 'Capt.': 'Mr.', 'the': 'Child.', 'Jonkheer.': 'Mr.'}
+data.replace({'Title': title_dict}, inplace=True)
 
 # fill the missing values in 'Age'
 data['Age'] = data['Age'].fillna(data.groupby('Title')['Age'].transform('mean'))
 
+data = pd.get_dummies(data, columns=['Title'])
+data = data.drop(['Name'], axis=1)
+
+# convert 'Sex' to labels
+data = pd.get_dummies(data, columns=['Sex'])
+
 # bin the ages
-min_age = data['Age'].min()
-max_age = data['Age'].max()
 bins_age = [0., 18., 35., 60., 80.]
 labels_age = [0, 1, 2, 3]
 data['Age'] = pd.cut(data['Age'], bins=bins_age, labels=labels_age)
@@ -57,10 +57,7 @@ data = data.drop(['Cabin'], axis=1)
 
 # fill the two missing values in 'Embarked'
 data['Embarked'] = data['Embarked'].fillna(method='ffill')
-# embarked_ohe = pd.get_dummies(data['Embarked'])
-# data = pd.concat([data, embarked_ohe], axis=1)
-# data = data.drop('Embarked', axis=1)
-data = pd.get_dummies(data)
+data = pd.get_dummies(data, columns=['Embarked'])
 
 # test_set = data.loc[data['set'] == 'test']
 # data = data.loc[data['set'] == 'train']
