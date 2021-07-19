@@ -10,13 +10,12 @@ X = np.array(data)
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, stratify=y)
 
-clf = RandomForestClassifier(n_estimators=5)
+clf = RandomForestClassifier(n_estimators=5, max_features='sqrt', max_depth=10)
 
-clf.fit(X, y)
+clf.fit(X_train, y_train)
 
-y_pred = clf.predict(test_set)
-'''
+y_pred = clf.predict(X_test)
+
 print('\nModel accuracy score: ', accuracy_score(y_test, y_pred))
 print('\nConfusion Matrix\n', confusion_matrix(y_test, y_pred))
 print(classification_report(y_test, y_pred))
-'''
