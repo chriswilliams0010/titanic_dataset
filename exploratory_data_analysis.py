@@ -1,6 +1,5 @@
 import pandas as pd
 import numpy as np
-from sklearn.preprocessing import OneHotEncoder
 # import seaborn as sns
 
 path = r'train.csv'
@@ -18,12 +17,7 @@ reserve_dataset = data.copy()
 data = data.drop(['PassengerId'], axis=1)
 
 # extract title from name and place it in a new column
-data['Title'] = [i[1].split()[0] for i in (j.split(',') for j in (x for x in data['Name']))]
-title_dict = {'Mr.': 'Mr.', 'Mrs.': 'Miss.', 'Miss.': 'Miss.', 'Master.': 'Child.',
-              'Don.': 'Mr.', 'Rev.': 'Mr.', 'Dr.': 'Mr.', 'Mme.': 'Miss.',
-              'Ms.': 'Miss.', 'Major.': 'Mr.', 'Lady.': 'Miss.', 'Sir.': 'Mr.',
-              'Mlle.': 'Miss.', 'Col.': 'Mr.', 'Capt.': 'Mr.', 'the': 'Child.', 'Jonkheer.': 'Mr.'}
-data.replace({'Title': title_dict}, inplace=True)
+data['Title'] = data['Name'].str.extract('([A-Za-z]+)\.', expand=True)
 
 # fill the missing values in 'Age'
 data['Age'] = data['Age'].fillna(data.groupby('Title')['Age'].transform('mean'))
