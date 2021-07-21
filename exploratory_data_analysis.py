@@ -28,10 +28,12 @@ data = data.drop(['Name'], axis=1)
 # convert 'Sex' to labels
 data = pd.get_dummies(data, columns=['Sex'])
 
+'''
 # bin the ages
 bins_age = [0., 18., 35., 60., 80.]
 labels_age = [0, 1, 2, 3]
 data['Age'] = pd.cut(data['Age'], bins=bins_age, labels=labels_age)
+'''
 
 # get the family count and place it in a new column
 data['Family'] = data['SibSp'] + data['Parch'] + 1
