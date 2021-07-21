@@ -1,5 +1,8 @@
 import pandas as pd
-import numpy as np
+# import numpy as np
+from sklearn.preprocessing import MinMaxScaler
+from sklearn.preprocessing import OneHotEncoder
+from sklearn.preprocessing import StandardScaler
 # import seaborn as sns
 
 path = r'train.csv'
@@ -8,6 +11,9 @@ test_path = r'test.csv'
 data = pd.read_csv(path)
 reserve_data = data.copy()
 y = data.pop('Survived')
+ohe = OneHotEncoder()
+mm = MinMaxScaler()
+scl = StandardScaler()
 
 test_data = pd.read_csv(test_path)
 pass_id = test_data['PassengerId']
@@ -15,6 +21,10 @@ data = pd.concat([data, test_data])
 reserve_dataset = data.copy()
 
 data = data.drop(['PassengerId'], axis=1)
+
+# one hot encode 'Pclass'
+one_df = ohe.fit_transform(data[['Pclass']]).toarray()
+data[['Pclass_1', 'Pclass_2', 'P_class_3']] = one_df
 
 # extract title from name and place it in a new column
 data['Title'] = data['Name'].str.extract('([A-Za-z]+)\.', expand=True)
@@ -44,9 +54,11 @@ data = data.drop(['Ticket'], axis=1)
 
 # bin the fare values
 data['Fare'] = (data['Fare'].fillna(data.groupby('Pclass')['Fare'].transform('mean')))
-bins_fare = [-np.inf, 50., 200., np.inf]
-labels_fare = [0, 1, 2]
-data['Fare'] = pd.cut(data['Fare'], bins=bins_fare, labels=labels_fare)
+# bins_fare = [-np.inf, 50., 200., np.inf]
+# labels_fare = [0, 1, 2]
+# data['Fare'] = pd.cut(data['Fare'], bins=bins_fare, labels=labels_fare)
+
+data = data.drop(['Pclass'], axis=1)
 
 # drop 'Cabin'
 data = data.drop(['Cabin'], axis=1)
@@ -55,13 +67,17 @@ data = data.drop(['Cabin'], axis=1)
 data['Embarked'] = data['Embarked'].fillna(method='ffill')
 data = pd.get_dummies(data, columns=['Embarked'])
 
+# scale 'Age' 'Fare' and 'Family'
+data = scl.fit_transform(data)
+# data[['Age', 'Fare']] = mm.fit_transform(data[['Age', 'Fare']])
+# data[['Family']] = scl.fit_transform(data[['Family']])
 # test_set = data.loc[data['set'] == 'test']
 # data = data.loc[data['set'] == 'train']
 # data = data.drop(['PassengerId'], axis=1)
 # test_set = test_set.drop(['PassengerId'], axis=1)
-sp_corr = data.corr(method='spearman')
+# sp_corr = data.corr(method='spearman')
 # sns.heatmap(sp_corr)
 
 # sns.boxplot(data=data.iloc[:, 1:])
-test_set = data.iloc[891:, :]
-data = data.iloc[:891, :]
+test_set = data[891:, :]
+data = data[:891, :]
