@@ -1,13 +1,10 @@
 from exploratory_data_analysis import data, y, test_set
 import numpy as np
 from sklearn.model_selection import RepeatedStratifiedKFold
-from sklearn.model_selection import RandomizedSearchCV
 from sklearn.model_selection import cross_val_score
 from sklearn.ensemble import StackingClassifier
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
-from sklearn.ensemble import GradientBoostingClassifier
-from sklearn.naive_bayes import GaussianNB
 from xgboost import XGBClassifier
 
 X = np.array(data)
