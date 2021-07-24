@@ -15,8 +15,10 @@ def stack():
     lvl.append(('logreg', LogisticRegression(solver='liblinear', penalty='l2', C=10, random_state=42)))
     lvl.append(('xgb', XGBClassifier(n_estimators=19, max_depth=7, learning_rate=0.5,
                                      colsample_bytree=0.7, verbosity=0, random_state=42)))
-    lvl.append(('rf', RandomForestClassifier(n_estimators=1600, min_samples_split=5, min_samples_leaf=2,
+    lvl.append(('rf1', RandomForestClassifier(n_estimators=1600, min_samples_split=5, min_samples_leaf=2,
                                              max_features='sqrt', max_depth=10, bootstrap=False, random_state=42)))
+    lvl.append(('rf2', RandomForestClassifier(n_estimators=400, min_samples_split=10, min_samples_leaf=4,
+                                              max_features='sqrt', max_depth=90, bootstrap=True, random_state=42)))
     lvl_2 = LogisticRegression(solver='liblinear', random_state=42)
     clf = StackingClassifier(estimators=lvl, final_estimator=lvl_2, cv=5)
     return clf
