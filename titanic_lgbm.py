@@ -1,11 +1,11 @@
 from exploratory_data_analysis import data, y, test_set
 import numpy as np
 from sklearn.model_selection import train_test_split
-from sklearn.model_selection import RandomizedSearchCV
+# from sklearn.model_selection import RandomizedSearchCV
 import lightgbm as lgbm
-from sklearn.metrics import accuracy_score
-from sklearn.metrics import confusion_matrix
-from sklearn.metrics import classification_report
+# from sklearn.metrics import accuracy_score
+# from sklearn.metrics import confusion_matrix
+# from sklearn.metrics import classification_report
 
 X = np.array(data)
 

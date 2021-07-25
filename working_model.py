@@ -22,9 +22,9 @@ models = {
     'K-Nearest Neighbors': KNeighborsClassifier(n_neighbors=5),
     'Decision Tree': DecisionTreeClassifier(),
     'Random Forest 1': RandomForestClassifier(n_estimators=1600, min_samples_split=5, min_samples_leaf=2,
-                                            max_features='sqrt', max_depth=10, bootstrap=False, random_state=42),
+                                              max_features='sqrt', max_depth=10, bootstrap=False, random_state=42),
     'Random Forest 2': RandomForestClassifier(n_estimators=400, min_samples_split=5, min_samples_leaf=2,
-                                            max_features='sqrt', max_depth=10, bootstrap=False, random_state=42),
+                                              max_features='sqrt', max_depth=10, bootstrap=False, random_state=42),
     'Bagging': BaggingClassifier(base_estimator=AdaBoostClassifier()),
     'AdaBoost': AdaBoostClassifier(),
     'Extra Trees': ExtraTreesClassifier()
