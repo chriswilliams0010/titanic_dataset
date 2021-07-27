@@ -18,14 +18,14 @@ X_test = np.array(test_set)
 # create dict of algorithms
 models = {
     'Logistic Regression': LogisticRegression(solver='liblinear', penalty='l2', C=10, random_state=42),
-    'RFE': RFE(estimator=LogisticRegression()),
+    'RFE': RFE(estimator=LogisticRegression(solver='liblinear', penalty='l2', C=10, random_state=42)),
     'K-Nearest Neighbors': KNeighborsClassifier(n_neighbors=5),
-    'Decision Tree': DecisionTreeClassifier(),
+    'Decision Tree': DecisionTreeClassifier(criterion='entropy', max_depth=4, min_samples_leaf=2, random_state=42),
     'Random Forest 1': RandomForestClassifier(n_estimators=1600, min_samples_split=5, min_samples_leaf=2,
                                               max_features='sqrt', max_depth=10, bootstrap=False, random_state=42),
     'Random Forest 2': RandomForestClassifier(n_estimators=400, min_samples_split=5, min_samples_leaf=2,
                                               max_features='sqrt', max_depth=10, bootstrap=False, random_state=42),
-    'Bagging': BaggingClassifier(base_estimator=AdaBoostClassifier()),
+    'Bagging': BaggingClassifier(base_estimator=RandomForestClassifier()),
     'AdaBoost': AdaBoostClassifier(),
     'Extra Trees': ExtraTreesClassifier()
 }
