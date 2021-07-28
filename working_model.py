@@ -33,6 +33,8 @@ models = {
 # use k-fold cv to determine best estimator
 # make a loop for testing and printing out results of each model
 for name, model in models.items():
-    kf = StratifiedKFold(n_splits=5, random_state=42, shuffle=True)
-    cv = cross_val_score(estimator=model, X=X, y=y, cv=kf, scoring='accuracy')
-    print(f" {name}: \nf1: {cv.mean()}\nstd: {cv.std()}")
+    kf = StratifiedKFold(n_splits=10, random_state=42, shuffle=True)
+    cv_acc = cross_val_score(estimator=model, X=X, y=y, cv=kf, scoring='accuracy')
+    cv_f1 = cross_val_score(estimator=model, X=X, y=y, cv=kf, scoring='f1')
+    print(f" {name}: \naccuracy: {cv_acc.mean()}\nstd: {cv_acc.std()}")
+    print(f" {name}: \nf1: {cv_f1.mean()}\nstd: {cv_f1.std()}")
