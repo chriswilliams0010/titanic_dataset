@@ -16,10 +16,11 @@ param_grid = {
     'learning_rate': [0.4, 0.45, 0.5, 0.55, 0.6],
     'colsample_bytree': [0.6, 0.7, 0.8, 0.9, 1]
 }
-clf = XGBClassifier(n_estimators=10)
+clf = XGBClassifier(n_estimators=10, objective='binary:logistic', eval_metric='logloss',
+                    use_label_encoder=False, random_state=42)
 xgb = RandomizedSearchCV(param_distributions=param_grid,
                                 estimator=clf, scoring='accuracy',
-                                verbose=1, n_iter=50, cv=4)
+                                verbose=1, n_iter=50, cv=10)
 
 xgb.fit(X, y)
 print("Best params: ", xgb.best_params_)

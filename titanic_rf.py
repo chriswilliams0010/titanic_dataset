@@ -6,7 +6,7 @@ from sklearn.model_selection import train_test_split
 # from sklearn.metrics import confusion_matrix
 # from sklearn.metrics import classification_report
 
-from exploratory_data_analysis import data, y  # , test_set
+from exploratory_data_analysis import data, y , test_set
 
 X = data
 
@@ -31,14 +31,12 @@ clf_random = RandomizedSearchCV(estimator=clf,
                                 n_iter=100, cv=3, verbose=2,
                                 random_state=42, n_jobs=-1)
 
-clf_random.fit(X_train, y_train)
+clf_random.fit(X, y)
 print(clf_random.best_params_)
 
+y_pred = clf_random.predict(test_set)
+
 '''
-clf.fit(X_train, y_train)
-
-y_pred = clf.predict(X_test)
-
 print('\nModel accuracy score: ', accuracy_score(y_test, y_pred))
 print('\nConfusion Matrix\n', confusion_matrix(y_test, y_pred))
 print(classification_report(y_test, y_pred))

@@ -29,7 +29,9 @@ def eval_model(clf, X, y):
     score = cross_val_score(clf, X, y, scoring='accuracy', cv=cv, n_jobs=-1, error_score='raise')
     print(np.mean(score))
     return score
-'''
-if __name__ == "__main__":
-    eval_model(stack(), X, y)
-'''
+
+clf = stack()
+
+clf.fit(X, y)
+
+y_pred = clf.predict(test_set)
