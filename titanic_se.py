@@ -1,4 +1,3 @@
-from exploratory_data_analysis import data, y, test_set
 import numpy as np
 from sklearn.model_selection import RepeatedStratifiedKFold
 from sklearn.model_selection import cross_val_score
@@ -7,9 +6,14 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
 from xgboost import XGBClassifier
 
+# import data from exploratory_data_analysis
+from exploratory_data_analysis import data, y, test_set
+
+# define X
 X = np.array(data)
 
 
+# function stacking classifiers
 def stack():
     lvl = list()
     lvl.append(('logreg', LogisticRegression(solver='liblinear', penalty='l2', C=10, random_state=42)))
@@ -24,14 +28,19 @@ def stack():
     return clf
 
 
+# function for evaluating the efficacy of the stack
 def eval_model(clf, X, y):
     cv = RepeatedStratifiedKFold(n_splits=10, n_repeats=5)
     score = cross_val_score(clf, X, y, scoring='accuracy', cv=cv, n_jobs=-1, error_score='raise')
     print(np.mean(score))
     return score
 
+
+# call the stack function as classifier
 clf = stack()
 
+# fit the classifier
 clf.fit(X, y)
 
+# predict on the classifier
 y_pred = clf.predict(test_set)
